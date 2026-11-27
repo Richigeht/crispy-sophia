@@ -6,8 +6,8 @@
     "dev": "astro dev --host 0.0.0.0",
     "build": "astro build",
     "preview": "astro preview --host 0.0.0.0",
-    "build:pages": "astro build --outDir ./docs",
-    "test:pages": "node --test tests/pages.test.mjs"
+    "build:pages": "astro build --outDir ./docs && node scripts/portable-pages.mjs",
+    "test:pages": "node --test tests/*.test.mjs"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
     "@fontsource/dm-sans": "^5.3.0",
     "@fontsource/instrument-serif": "^5.3.0",
     "astro": "^7.4.12",
-    "gsap": "^3.15.1"
+    "gsap": "^3.15.1",
+    "leaflet": "1.9.4",
+    "suncalc": "1.9.0"
   }
 }

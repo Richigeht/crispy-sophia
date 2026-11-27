@@ -1,55 +1,26 @@
 ---
-import '@fontsource/instrument-serif/latin-400.css';
-import '@fontsource/instrument-serif/latin-400-italic.css';
-import '@fontsource/dm-sans/latin-400.css';
-import '@fontsource/dm-sans/latin-600.css';
-import '../style.css';
-const imageBase = import.meta.env.BASE_URL.replace(/\/$/, '');
-const trips=[
- {
-   city: 'Nürnberg', id: 'nuernberg', country: 'Deutschland',
-   title: 'Erst Milchstraße, dann Margherita',
-   detail: 'Samstag, 5. Dezember 2026',
-   copy: 'Das Planetarium hab ich ausgesucht, weil ich den Gedanken romantisch finde, neben dir zu sitzen, wenn über uns die Milchstraße aufgeht. Um sechs startet die Show in Nürnberg. Und danach komm ich endlich zu meinem Pizza-All-you-can-eat! Bei Pepe in Erlangen ist Giro-Samstag. Wir teilen uns die Pizzen, bis wir satt sind, und übernachten im Hotel.',
-   links: [
-     { label: 'Zur Pizzeria Pepe im Campus', url: 'https://pepeimcampus.de/' },
-     { label: '18 Uhr · Zur Show „Galaxis“', url: 'https://planetarium.nuernberg.de/programm/galaxis-eine-reise-durch-die-milchstrasse' }
-   ]
- },
- {
-   city: 'Wien', id: 'wien', country: 'Österreich',
-   title: 'Hotel Lust – in Wien',
-   detail: 'Eine Woche später · Samstag, 12. Dezember 2026',
-   copy: 'Oder packen wir lieber für unser Kink-Party-Wochenende? Ich schenke dir die Nacht im Hotel Lust. Und wenn wir irgendwann die Zimmertür hinter uns zumachen, freue ich mich auf den Teil des Wochenendes, der nur uns beiden gehört.'
- }
-];
+import Post from '../layouts/Post.astro';
+import Weather from '../components/Weather.astro';
 ---
-<!doctype html><html lang="de"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#f6ddd5"/><title>Reisepost für Sophia</title></head>
-<body><header><a class="brand" href="#anfang"><span class="mark" aria-hidden="true">♡</span>Reisepost</a><nav aria-label="Hauptnavigation"><a href="#brief">Dein Brief</a><a href="#reisen">Reiseideen</a><a class="nav-choice" href="#wahl">Deine Wahl <span>↗</span></a></nav></header>
-<main><section class="hero" id="anfang"><div class="intro"><div class="eyebrow"><i></i> GEBURTSTAGSPOST FÜR DICH</div><h1>Liebste<br/><em>Sophia,</em><span class="heart" aria-hidden="true">♡</span></h1><p>Zum Geburtstag schenke ich dir eine Nacht zu zweit.<br class="wide"/> Du suchst aus, wo wir aufwachen.</p><a class="primary" href="#reisen">Reiseideen entdecken <span>↓</span></a></div>
-<div class="collage" aria-label="Illustrierte Reisepostkarten von Wien und Nürnberg">
-{[trips[1],trips[0]].map((t,i)=><a class={'postcard pc'+i} href={'#'+t.id} aria-label={t.city+' entdecken'}><img src={imageBase+'/'+t.id+'.webp'} alt=""/><div class="caption"><small>GRÜSSE AUS</small><strong>{t.city}</strong></div><span class="post-foot">{t.country} <b>✦</b> EUROPA</span></a>)}
-<div class="seal" aria-hidden="true"><span>MIT LIEBE</span>♡<small>FÜR DICH</small></div></div>
-<div class="hero-foot"><span>01 / 03</span><span class="hair"></span><a href="#brief">WEITERLESEN ↓</a></div></section>
-<section id="brief" class="letter"><div class="eyebrow">01 &nbsp;/ &nbsp; DEIN BRIEF</div><h2>Hier für dich,<br/><em>mein Schmetterling!</em></h2><p>Alles Liebe zum Geburtstag, Sophia. Ich konnte mich zwischen einem Abend unterm Sternenhimmel und unserem Partywochenende in Wien einfach nicht entscheiden. Also kriegst du von mir eine Hotelnacht und hast das letzte Wort: Wo soll ich für uns zwei ein Bett buchen?</p><span class="signature">Mit Liebe ♡</span></section>
-<section id="reisen" class="journeys"><div class="rail"><div class="eyebrow">02 &nbsp;/ &nbsp; REISEIDEEN</div><h2>Wohin zieht<br/>es <em>dich?</em></h2><div class="indicator"><i></i>{trips.map(t=><a href={'#'+t.id}>{t.city}</a>)}</div></div><div class="stories">{trips.map((t,i)=><article id={t.id}><img src={imageBase+'/'+t.id+'.webp'} alt={'Illustrierte Stadtansicht von '+t.city}/><div class="story-text"><div class="eyebrow">{t.city} · {t.country}</div><h3>{t.title}</h3><strong>{t.detail}</strong><p>{t.copy}</p>{t.links && <ul class="trip-links">{t.links.map(link => <li><a href={link.url} target="_blank" rel="noopener noreferrer">{link.label} <span aria-hidden="true">↗</span></a></li>)}</ul>}<a href="#wahl">Zur Auswahl ↓</a></div></article>)}</div></section>
-<section class="decision" id="wahl"><div class="eyebrow">03 &nbsp;/ &nbsp; DEINE WAHL</div><h2>Wo wachen wir <em>auf?</em></h2><p>Such dir unsere gemeinsame Nacht aus.</p><div class="buttons">{trips.map(t=><button type="button" data-city={t.city} aria-pressed="false">{t.city} wählen <span>♡</span></button>)}</div><p class="result" role="status"></p></section></main><footer><span>Reisepost für Sophia</span><a href="#anfang">Zurück nach oben ↑</a></footer>
-<script>
-import {gsap} from 'gsap';
-import {ScrollTrigger} from 'gsap/ScrollTrigger';
-gsap.registerPlugin(ScrollTrigger);
-const mm=gsap.matchMedia();
-mm.add('(prefers-reduced-motion: no-preference)',()=>{
-gsap.from('.intro > *',{y:12,opacity:0,duration:.6,stagger:.07});
-gsap.from('.postcard',{y:32,duration:.95,stagger:.12,ease:'power3.out'});
-});
-const links=[...document.querySelectorAll<HTMLAnchorElement>('.indicator a')];
-document.querySelectorAll('.stories article').forEach((article,i)=>{
-function activate(){links.forEach((link,j)=>link.setAttribute('aria-current',i===j?'location':'false'));gsap.set('.indicator i',{yPercent:i*100});}
-ScrollTrigger.create({trigger:article,start:'top 55%',end:'bottom 55%',onEnter:activate,onEnterBack:activate});
-});
-const buttons=[...document.querySelectorAll<HTMLButtonElement>('[data-city]')];
-function select(city:string){if(!buttons.some(b=>b.dataset.city===city))return;buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.city===city)));document.querySelector<HTMLElement>('.result')!.textContent='Dann geht’s für uns nach '+city+'! ♡';}
-try{select(localStorage.getItem('sophias-reisewahl')||'')}catch{}
-buttons.forEach(b=>b.addEventListener('click',()=>{const city=b.dataset.city!;select(city);try{localStorage.setItem('sophias-reisewahl',city)}catch{}}));
-</script></body></html>
+<Post title="Sophias Gartenpost · Reizpost bei Nacht">
+<main id="inhalt" class="wrap">
+  <article class="cover">
+    <div class="letter">
+      <div class="kicker"><span class="day">Post aus dem Beet</span><span class="night">Post nach Sonnenuntergang</span><i></i></div>
+      <h1><span class="day">Lauch<br/><em>gehabt!</em></span><span class="night">Vom Beet<br/><em>ins Blaue.</em></span></h1>
+      <p class="lead">Liebste Sophia,</p>
+      <p class="copy day">wenn deine Frühlingszwiebeln ankommen, bringe ich die Schaufel mit. Hast du Lust, sie zusammen einzupflanzen?</p>
+      <p class="copy night">erst die Hände in die Erde, dann mit dir durch den Abend. Darf ich am Wochenende zum Pflanzen vorbeikommen?</p>
+      <a class="cta" href="antwort/index.html"><span class="day">Komm zum Pflanzen vorbei</span><span class="night">Das klingt schön</span><span aria-hidden="true">↗</span></a>
+    </div>
+    <figure class="print">
+      <img class="day" src="garten-tag.webp" width="1200" height="800" alt="Zwei Gartenhelfer tragen eine riesige Frühlingszwiebel übers Beet." />
+      <img class="night" src="garten-nacht.webp" width="1200" height="800" alt="Eine kleine Tafel für zwei im Mondlicht hinter einem Gartentor." />
+      <figcaption><span class="day">Frühlingszwiebeln für zwei</span><span class="night">Ein Tisch für zwei</span><span>Rosenheim ♡</span></figcaption>
+    </figure>
+  </article>
+  <aside class="after"><span class="flower" aria-hidden="true">✳</span><div><h2>Nach dem Beet <em>an den Tisch.</em></h2>
+    <p>Danach lade ich dich richtig gut zum Essen ein. Irgendwo hier in der Nähe, höchstens bis Augsburg. Und falls wir unterwegs einen Moment nur für uns finden …</p>
+    <p class="ps">P. S. Nürnberg läuft uns nicht weg. Wie wär’s mit Weihnachten oder Silvester, wenn es für dich passt?</p></div></aside>
+  <Weather />
+</main></Post>
