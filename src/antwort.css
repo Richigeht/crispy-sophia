@@ -21,7 +21,7 @@
 .salutation, .dinner, .signature { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; }
 .salutation { font-size: clamp(1.85rem, 3vw, 2.75rem); line-height: 1.09; margin: 0 0 22px; max-width: 21ch; }
 .photo { margin: 0 4px 14px; padding: 9px; background: var(--sheet); transform: rotate(-2deg); box-shadow: 1px 5px 13px #6b382a33; }
-.photo img { display: block; width: 100%; aspect-ratio: 1.18; height: auto; object-fit: cover; object-position: 50% 40%; }
+.photo img { display: block; width: 100%; aspect-ratio: 1.18; height: auto; object-fit: cover; object-position: 50% 22%; }
 .spread .weather { margin: 0; padding: clamp(14px, 2vw, 26px); background: var(--sheet) url('./grain.png'); background-blend-mode: soft-light; border: 1px solid #e0c9ac; outline: 1px solid #e2cfb7; outline-offset: -6px; box-shadow: 2px 5px 13px #6b382a24; }
 .spread .weather-head h2 { font-size: clamp(1.9rem, 3vw, 3rem); margin: 4px 0 14px; }
 .spread .weather-head h2 em { color: inherit; }
