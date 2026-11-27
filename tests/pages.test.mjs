@@ -17,5 +17,11 @@ test('all three pages resolve their assets and internal links under a preview pr
   const archive = readFileSync('docs/reisepost/index.html', 'utf8');
   for (const asset of ['../wien.webp', '../nuernberg.webp']) assert.ok(archive.includes(asset));
   const answer = readFileSync('docs/antwort/index.html', 'utf8');
-  assert.match(answer, /Heute grüßt das B\.<\/h1>\s*<p>Liebste Sophia, ja, dann komme ich zum Pflanzen vorbei\.<\/p>/);
+  assert.match(answer, /Heute grüßt <em>das Beet\.<\/em>/);
+  assert.match(answer, /Liebste Sophia,<br\s*\/?>ja, dann komme ich zum Pflanzen vorbei\./);
+  for (const id of ['address', 'garden-weather', 'outlook']) assert.ok(answer.includes('id="' + id + '"'));
+  assert.ok(answer.includes('class="photo"'));
+  for (const page of [answer, readFileSync('docs/index.html', 'utf8')]) {
+    assert.ok(page.includes('ein paar Wimpernschläge Zeit mit dir verbringen und mit dir zusammen sein 💕'));
+  }
 });

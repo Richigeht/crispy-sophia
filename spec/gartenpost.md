@@ -1,6 +1,6 @@
 # Sophias Gartenpost und Reizpost bei Nacht
 
-Sophia hat Nürnberg gewählt. Die neue Startseite lädt sie für das ursprünglich geplante Wochenende am 5. und 6. Dezember 2026 zum gemeinsamen Einpflanzen ihrer Frühlingszwiebeln und anschließend zum Essen ein. Augsburg ist die äußere Grenze für die Fahrt. Nürnberg, Weihnachten und Silvester bleiben eine offene Einladung.
+Sophia hat Nürnberg gewählt. Die neue Startseite lädt sie für das ursprünglich geplante Wochenende am 5. und 6. Dezember 2026 zum gemeinsamen Einpflanzen ihrer Frühlingszwiebeln und anschließend zum Essen ein. Augsburg ist die äußere Grenze für die Fahrt. Die persönliche Widmung stellt die gemeinsame Zeit in den Mittelpunkt.
 
 ## Seiten und Interaktion
 
@@ -8,11 +8,24 @@ Sophia hat Nürnberg gewählt. Die neue Startseite lädt sie für das ursprüngl
 | --- | --- |
 | Ab Sonnenaufgang in Rosenheim | „Sophias Gartenpost“, Titel „Lauch gehabt!“, Tagesillustration, Schaltfläche „Komm zum Pflanzen vorbei“ |
 | Ab Sonnenuntergang in Rosenheim | „Reizpost bei Nacht“, Titel „Vom Beet ins Blaue.“, Nachtillustration, Schaltfläche „Das klingt schön“ |
-| Eine der beiden Schaltflächen anklicken | Eigene Adresse unter `/antwort/`. Überschrift „Heute grüßt das B.“ und direkt darunter „Liebste Sophia, ja, dann komme ich zum Pflanzen vorbei.“ |
-| Antwort direkt öffnen oder neu laden | Derselbe Brief. Der Rücklink führt zur Einladung. Der Klick löst ausschließlich die Navigation aus. |
+| Eine der beiden Schaltflächen anklicken | Eigene Adresse unter `/antwort/`. Roséfarbene Postkarte „Heute grüßt das Beet.“ mit Zusage, Gartenillustration, Wetterkarte und persönlicher Widmung. |
+| Antwort direkt öffnen oder neu laden | Dieselbe illustrierte Zusage. Der Rücklink führt zur Einladung. Der Klick löst ausschließlich die Navigation aus. |
 | „Die erste Reisepost“ öffnen | Die ursprüngliche Reiseauswahl inklusive ihrer lokalen Speicherung unter `/reisepost/`. |
 
 Die Startseite funktioniert als statisches HTML. JavaScript berechnet vor Ort die astronomische Ausgabe mit SunCalc, der Uhrzeit des Geräts und einem festen Standort in Rosenheim. Die Berechnung verwendet den Kalendertag in Europe/Berlin. Bei offenem Tab wird zum nächsten Ereignis umgeschaltet. Bei Rückkehr aus dem Hintergrund wird erneut berechnet. Ohne JavaScript ist die Tagespost lesbar.
+
+## Gestaltung und Unterseiten
+
+| Ansicht | Route | Gestaltung und Verhalten |
+| --- | --- | --- |
+| [Tag](ansichten/tag.webp) | `/` | Creme, Waldgrün und Zinnoberrot. Zwei Gartenhelfer tragen eine große Frühlingszwiebel. „Komm zum Pflanzen vorbei“ öffnet die Zusage. |
+| [Nacht](ansichten/nacht.webp) | `/` | Indigo und Apricot. Ein beleuchteter Tisch im nächtlichen Garten. „Das klingt schön“ öffnet dieselbe Zusage. |
+| [Zusage am Desktop](ansichten/zusage.webp) · [am Handy](ansichten/zusage-mobil.webp) | `/antwort/` | Roséfarbenes Papier mit Schmetterlingsmarke. Links stehen der Gruß und die gerahmte Illustration, rechts die Wetterkarte. Auf dem Handy folgen diese Elemente untereinander. Es schließen sich die Essenseinladung und Ricardos persönliche Widmung an. |
+| [Erste Reisepost](ansichten/reisepost.webp) | `/reisepost/` | Ursprüngliche Geburtstagsausgabe mit den Reiseoptionen Wien und Nürnberg. Über die Fußzeilen der Einladung und Zusage erreichbar. |
+
+Die Ansichten sind Browseraufnahmen der gebauten Seiten. Die Zusage ist zu jeder Tageszeit roséfarben. Ihr Text beantwortet Sophias Ja: „Liebste Sophia, ja, dann komme ich zum Pflanzen vorbei.“ Vor der Ortswahl zeigt sie eine ausdrücklich als Beispiel gekennzeichnete illustrierte Karte. Nach der Ortswahl erscheint an ihrer Stelle die bedienbare Wetterkarte. Die Widmung auf Einladung und Zusage lautet:
+
+> Nürnberg läuft uns nicht weg. Hauptsache, ich darf ein paar Wimpernschläge Zeit mit dir verbringen und mit dir zusammen sein 💕
 
 ## Ort und Gartenwetter
 

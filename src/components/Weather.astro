@@ -1,9 +1,16 @@
+---
+import mapIllustration from '../assets/antwort/gartenkarte.webp';
+const { postcard = false } = Astro.props;
+---
 <section class="weather" aria-labelledby="wetter">
   <div class="weather-head"><div><div class="kicker">Gartenwochenende · 5. &amp; 6. Dezember</div>
-    <h2 id="wetter">Wann geht’s <em>ins Beet?</em></h2></div><span class="forecast-tag">Gartenwetter</span></div>
-  <p>Schau, wie warm die Erde wird und ob uns Regen oder Nachtfrost dazwischenkommt.</p>
+    <h2 id="wetter">{postcard ? <>Lokale Wetterkarte <em>fürs Beet</em></> : <>Wann geht’s <em>ins Beet?</em></>}</h2></div><span class="forecast-tag">Gartenwetter</span></div>
+  {postcard ? <figure class="map-preview">
+    <img src={mapIllustration.src} alt="" />
+    <figcaption>Beispielansicht · Gartenort noch offen</figcaption>
+  </figure> : <p>Schau, wie warm die Erde wird und ob uns Regen oder Nachtfrost dazwischenkommt.</p>}
   <form id="garden-search" class="garden-search" autocomplete="off">
-    <label for="address">Wo liegt euer Garten?</label>
+    <label for="address">{postcard ? 'Wo pflanzen wir unsere Frühlingszwiebeln?' : 'Wo liegt euer Garten?'}</label>
     <div><input id="address" type="search" placeholder="Straße, Hausnummer und Ort" required /><button type="submit">Adresse suchen</button></div>
     <small>Die Suche verwendet Photon und OpenStreetMap.</small>
   </form>

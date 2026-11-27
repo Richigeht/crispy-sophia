@@ -1,11 +1,39 @@
 ---
-import Post from '../../layouts/Post.astro';
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-600.css';
+import '@fontsource/instrument-serif/latin-400.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '../../post.css';
+import '../../antwort.css';
+import Weather from '../../components/Weather.astro';
+import { zeitZuZweit } from '../../lib/einladung.mjs';
+import couple from '../../assets/antwort/gartenpaar.webp';
+import stamp from '../../assets/antwort/poststempel.webp';
 ---
-<Post title="Deine Antwort · Sophias Gartenpost" home="../index.html">
-<main id="inhalt" class="wrap reply">
-  <article class="reply-card"><span class="postage" aria-hidden="true">✳</span><div class="kicker">Antwortpost für Sophia</div>
-    <h1>Heute grüßt das B.</h1>
-    <p>Liebste Sophia, ja, dann komme ich zum Pflanzen vorbei.</p>
-    <a class="textlink" href="../index.html">← Zur Gartenpost</a>
-  </article>
-</main></Post>
+<!doctype html>
+<html lang="de" class="answer-post"><head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#f8dbd0" /><title>Heute grüßt das Beet. · Antwort für Sophia</title>
+</head><body>
+<a class="skip" href="#inhalt">Zum Inhalt</a>
+<main class="stationery" id="inhalt">
+  <header class="post-head">
+    <a class="back" href="../index.html">← Zur Gartenpost</a>
+    <img class="stamp" src={stamp.src} alt="" width="222" height="114" />
+    <h1>Heute grüßt <em>das Beet.</em></h1>
+  </header>
+  <div class="spread">
+    <section class="portrait" aria-label="Deine Zusage">
+      <p class="salutation">Liebste Sophia,<br/>ja, dann komme ich zum Pflanzen vorbei.</p>
+      <figure class="photo"><img src={couple.src} width={couple.width} height={couple.height} alt="Zwei Gartenhelfer reichen sich lächelnd Frühlingszwiebeln. Hinter ihnen ist ein Tisch für zwei gedeckt." /></figure>
+    </section>
+    <Weather postcard />
+  </div>
+  <section class="dedication" aria-label="Zeit zu zweit">
+    <p class="dinner">Danach lade ich dich zum Essen ein. Höchstens bis Augsburg.</p>
+    <p class="wishes">{zeitZuZweit}</p>
+    <p class="signature">Dein Ricardo</p>
+  </section>
+  <footer><a href="../index.html">← Zur Einladung</a><a href="../reisepost/index.html">Die erste Reisepost ↗</a></footer>
+</main>
+</body></html>

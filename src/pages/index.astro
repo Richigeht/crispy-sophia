@@ -1,4 +1,5 @@
 ---
+import { zeitZuZweit } from '../lib/einladung.mjs';
 import Post from '../layouts/Post.astro';
 import Weather from '../components/Weather.astro';
 ---
@@ -21,6 +22,6 @@ import Weather from '../components/Weather.astro';
   </article>
   <aside class="after"><span class="flower" aria-hidden="true">✳</span><div><h2>Nach dem Beet <em>an den Tisch.</em></h2>
     <p>Danach lade ich dich richtig gut zum Essen ein. Irgendwo hier in der Nähe, höchstens bis Augsburg. Und falls wir unterwegs einen Moment nur für uns finden …</p>
-    <p class="ps">P. S. Nürnberg läuft uns nicht weg. Wie wär’s mit Weihnachten oder Silvester, wenn es für dich passt?</p></div></aside>
+    <p class="ps">{zeitZuZweit}</p></div></aside>
   <Weather />
 </main></Post>
