@@ -2,6 +2,22 @@
 import { zeitZuZweit } from '../lib/einladung.mjs';
 import Post from '../layouts/Post.astro';
 import Weather from '../components/Weather.astro';
+// Keep the printed scene identical on each visit. The two layers drift at different speeds.
+const flakes = Array.from({ length: 32 }, (_, i) => {
+  const near = i % 3 === 0;
+  const size = near ? 6 + i % 2 : 3 + i % 2;
+  const duration = (near ? 6 : 10) + i % 5;
+  const phase = (i * 41 + 11) % 100 / 100;
+  return {
+    left: ((i * 37 + 3) % 100) + '%',
+    width: size + 'px',
+    '--drift': (near ? 32 : -17) + 'px',
+    '--duration': duration + 's',
+    '--delay': -duration * phase + 's',
+    '--rest': phase * 100 + '%',
+    opacity: near ? 0.94 : 0.72,
+  };
+});
 ---
 <Post title="Sophias Gartenpost · Reizpost bei Nacht">
 <main id="inhalt" class="wrap">
@@ -15,8 +31,13 @@ import Weather from '../components/Weather.astro';
       <a class="cta" href="antwort/index.html"><span class="day">Komm zum Pflanzen vorbei</span><span class="night">Das klingt schön</span><span aria-hidden="true">↗</span></a>
     </div>
     <figure class="print">
-      <img class="day" src="garten-tag.webp" width="1200" height="800" alt="Zwei Gartenhelfer tragen eine riesige Frühlingszwiebel übers Beet." />
-      <img class="night" src="garten-nacht.webp" width="1200" height="800" alt="Eine kleine Tafel für zwei im Mondlicht hinter einem Gartentor." />
+      <div class="winter-scene">
+        <img class="day" src="garten-tag.webp" width="1200" height="800" alt="Zwei Gartenhelfer tragen eine riesige Frühlingszwiebel übers Beet." />
+        <img class="night" src="garten-nacht.webp" width="1200" height="800" alt="Eine kleine Tafel für zwei im Mondlicht hinter einem Gartentor." />
+        <div class="snowfall" aria-hidden="true">
+          {flakes.map(style => <i style={style}></i>)}
+        </div>
+      </div>
       <figcaption><span class="day">Frühlingszwiebeln für zwei</span><span class="night">Ein Tisch für zwei</span><span>Rosenheim ♡</span></figcaption>
     </figure>
   </article>
@@ -25,3 +46,40 @@ import Weather from '../components/Weather.astro';
     <p class="ps">{zeitZuZweit}</p></div></aside>
   <Weather />
 </main></Post>
+
+<style>
+  .winter-scene {
+    position: relative;
+    overflow: hidden;
+    container-type: inline-size;
+  }
+
+  .snowfall {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 56% 9% at 10% 102%, #f9fcff 65%, transparent 72%),
+      radial-gradient(ellipse 64% 10% at 90% 104%, #eaf3f7 70%, transparent 77%),
+      linear-gradient(165deg, #d9edff36, transparent 48%, #daeaf41f);
+  }
+
+  .snowfall i {
+    position: absolute;
+    top: var(--rest);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 2px #35546980;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .snowfall i {
+      top: -6px;
+      animation: snowfall var(--duration) linear var(--delay) infinite;
+    }
+    @keyframes snowfall {
+      to { transform: translate(var(--drift), calc(66.667cqw + 12px)); }
+    }
+  }
+</style>
