@@ -1,0 +1,40 @@
+---
+import '@fontsource/dm-sans/latin-400.css';
+import '@fontsource/dm-sans/latin-600.css';
+import '@fontsource/instrument-serif/latin-400.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '../post.css';
+const {title, home = './index.html'} = Astro.props;
+---
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{title}</title>
+  <script>
+    import { sunPhase, localTime } from '../lib/garden.mjs';
+    let timer: ReturnType<typeof setTimeout>;
+    function sync() {
+      clearTimeout(timer);
+      const now = new Date();
+      const { night, next } = sunPhase(now);
+      document.documentElement.dataset.edition = night ? 'night' : 'day';
+      document.querySelectorAll('[data-sun]').forEach(el => {
+        el.textContent = (night ? 'Sonnenaufgang ' : 'Sonnenuntergang ') + localTime(next);
+      });
+      timer = setTimeout(sync, Math.max(20, next.getTime() - Date.now()));
+    }
+    sync();
+    window.addEventListener('pageshow', sync);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) sync(); });
+  </script>
+</head>
+<body>
+  <a class="skip" href="#inhalt">Zum Inhalt</a>
+  <header class="mast wrap">
+    <a class="brand" href={home}><span class="seal" aria-hidden="true">✳</span><span class="day">Sophias Gartenpost</span><span class="night">Reizpost bei Nacht</span></a>
+    <span class="sunline"><span class="dot"></span> Rosenheim <span data-sun></span></span>
+  </header>
+  <slot />
+  <footer class="wrap"><span>Mit Liebe, Ricardo ♡</span><a href={home.replace('index.html', 'reisepost/index.html')}>Die erste Reisepost ↗</a></footer>
+</body></html>

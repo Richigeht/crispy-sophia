@@ -1,0 +1,30 @@
+---
+import mapIllustration from '../assets/antwort/gartenkarte.webp';
+const { postcard = false } = Astro.props;
+---
+<section class="weather" aria-labelledby="wetter">
+  <div class="weather-head"><div><div class="kicker">Gartenwochenende · 5. &amp; 6. Dezember</div>
+    <h2 id="wetter">{postcard ? <>Lokale Wetterkarte <em>fürs Beet</em></> : <>Wann geht’s <em>ins Beet?</em></>}</h2></div><span class="forecast-tag">Gartenwetter</span></div>
+  {postcard ? <figure class="map-preview">
+    <img src={mapIllustration.src} alt="" />
+    <figcaption>Beispielansicht · Gartenort noch offen</figcaption>
+  </figure> : <p>Schau, wie warm die Erde wird und ob uns Regen oder Nachtfrost dazwischenkommt.</p>}
+  <form id="garden-search" class="garden-search" autocomplete="off">
+    <label for="address">{postcard ? 'Wo pflanzen wir unsere Frühlingszwiebeln?' : 'Wo liegt euer Garten?'}</label>
+    <div><input id="address" type="search" placeholder="Straße, Hausnummer und Ort" required /><button type="submit">Adresse suchen</button></div>
+    <small>Die Suche verwendet Photon und OpenStreetMap.</small>
+  </form>
+  <p id="search-status" role="status"></p>
+  <ul id="matches" aria-label="Gefundene Orte"></ul>
+  <div class="forecast" id="forecast" hidden>
+    <div><label for="slot">Zeit in Deutschland</label><select id="slot"></select></div>
+    <div><label for="layer">Wetterkarte</label><select id="layer"><option value="soil_temperature_6cm">Boden in 6 cm Tiefe</option><option value="temperature_2m">Luft in 2 m Höhe</option><option value="precipitation">Niederschlag pro Stunde</option></select></div>
+  </div>
+  <div class="weather-body" id="garden-weather" hidden><div class="mapbox"><div id="map" role="region" aria-label="Wetterkarte für den gewählten Garten und seine Umgebung"></div></div>
+    <div class="reading"><h3>Pflanzfenster</h3><p id="outlook" role="status"></p>
+    <dl id="values"></dl><button id="retry" hidden>Erneut laden</button>
+    <p class="fine">Für bewurzelte Frühlingszwiebeln: Prüft vor Ort, ob die Erde locker, frostfrei und gut entwässert ist. Die Winterhärte hängt von der Sorte ab.</p></div></div>
+  <noscript>Für die Wetterkarte bitte JavaScript aktivieren.</noscript>
+  <div class="credit">Modellvorhersage · <a href="https://open-meteo.com/">Open-Meteo</a> · <a href="https://www.hortipendium.de/Fr%C3%BChlingszwiebeln_im_Hausgarten">Anbauhinweise</a></div>
+</section>
+<script>import '../weather.js';</script>

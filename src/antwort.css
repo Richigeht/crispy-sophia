@@ -1,0 +1,51 @@
+.answer-post {
+  --bg: #f8dbd0;
+  --ink: #57182a;
+  --accent: #8c3150;
+  --rule: #d2afa0;
+  --sheet: #fff8e9;
+  --button: #721e39;
+  --btn-text: #fff8ed;
+  background-color: var(--bg);
+  background-image: url('./grain.png'), radial-gradient(ellipse at 55% 35%, #fff1e5, transparent 70%);
+  background-blend-mode: soft-light, normal;
+}
+.stationery { max-width: 1310px; margin: auto; padding: 22px clamp(18px, 4vw, 65px) 0; }
+.post-head { position: relative; padding: 2px 0 18px; }
+.back, .stationery footer a { text-decoration-thickness: 1px; text-underline-offset: 4px; font-size: .87rem; }
+.post-head h1 { font-size: clamp(4.5rem, 8.8vw, 8rem); line-height: .98; margin: 14px 0 10px; font-style: italic; font-weight: 400; }
+.post-head h1 em { color: inherit; }
+.stamp { position: absolute; top: 8px; right: 0; width: clamp(100px, 15vw, 200px); height: auto; mix-blend-mode: multiply; transform: rotate(3deg); }
+.spread { display: grid; grid-template-columns: .88fr 1.12fr; gap: clamp(22px, 3vw, 47px); align-items: start; }
+.spread > * { min-width: 0; }
+.salutation, .dinner, .signature { font-family: 'Instrument Serif', Georgia, serif; font-style: italic; }
+.salutation { font-size: clamp(1.85rem, 3vw, 2.75rem); line-height: 1.09; margin: 0 0 22px; max-width: 21ch; }
+.photo { margin: 0 4px 14px; padding: 9px; background: var(--sheet); transform: rotate(-2deg); box-shadow: 1px 5px 13px #6b382a33; }
+.photo img { display: block; width: 100%; aspect-ratio: 1.18; height: auto; object-fit: cover; object-position: 50% 40%; }
+.spread .weather { margin: 0; padding: clamp(14px, 2vw, 26px); background: var(--sheet) url('./grain.png'); background-blend-mode: soft-light; border: 1px solid #e0c9ac; outline: 1px solid #e2cfb7; outline-offset: -6px; box-shadow: 2px 5px 13px #6b382a24; }
+.spread .weather-head h2 { font-size: clamp(1.9rem, 3vw, 3rem); margin: 4px 0 14px; }
+.spread .weather-head h2 em { color: inherit; }
+.spread .forecast-tag { display: none; }
+.map-preview { position: relative; margin: 0 0 15px; border: 1px solid #c4bf96; }
+.map-preview img { width: 100%; aspect-ratio: 2.55; object-fit: cover; display: block; }
+.map-preview figcaption { position: absolute; left: 8px; bottom: 8px; background: #fff8e9; color: #592e2b; padding: 4px 8px; font-size: .72rem; }
+.weather:has(#garden-weather:not([hidden])) .map-preview { display: none; }
+.spread .garden-search input { flex: 1 1 11rem; width: 100%; }
+.spread .garden-search input, .spread button, .spread select { border-radius: 5px; }
+.spread .garden-search small, .spread .credit { font-size: .72rem; }
+.spread .weather-body { grid-template-columns: 1fr; }
+.spread #map { min-height: 245px; }
+.spread .reading { padding: 16px; }
+.dedication { margin: clamp(24px,4vw,48px) auto 26px; text-align: center; }
+.dinner { font-size: clamp(1.8rem, 3.4vw, 3.25rem); line-height: 1.12; margin: 0 auto 16px; }
+.wishes { font: 400 clamp(1.25rem, 2.1vw, 1.9rem)/1.24 'Instrument Serif',Georgia,serif; max-width: 51ch; margin: auto; }
+.signature { font-size: 1.42rem; margin: 10px auto 0; }
+.stationery footer { border-color: var(--rule); }
+@media (max-width: 740px) {
+  .spread { grid-template-columns: 1fr; }
+  .post-head h1 { font-size: clamp(3.2rem, 11.8vw, 5.1rem); margin: 34px 0 0; }
+  .stamp { top: -12px; width: 90px; }
+  .salutation { max-width: 25ch; margin-bottom: 16px; }
+  .photo { max-width: 510px; }
+  .spread .weather { padding: 18px; }
+}
