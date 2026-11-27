@@ -1,14 +1,82 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { garden, localDate } from './lib/garden.mjs';
+import { localDate } from './lib/garden.mjs';
 import { weekend, metrics, assess, display } from './lib/forecast.mjs';
 
-const places = [garden, { name: 'Bad Aibling', lat: 47.864, lon: 12.011 }, { name: 'Stephanskirchen', lat: 47.855, lon: 12.183 }, { name: 'Raubling', lat: 47.789, lon: 12.11 }];
-const map = L.map('map', { scrollWheelZoom: false }).fitBounds(places.map(p => [p.lat, p.lon]), { padding: [32, 32], maxZoom: 11 });
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  maxZoom: 18, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-}).addTo(map);
-const pins = L.layerGroup().addTo(map);
+let places = [];
+let map;
+let pins;
+let generation = 0;
+const form = document.querySelector('#garden-search');
+const address = document.querySelector('#address');
+const matches = document.querySelector('#matches');
+const searchStatus = document.querySelector('#search-status');
+const weather = document.querySelector('#garden-weather');
+function selectGarden(point) {
+  generation++;
+  places = [point, { name: 'Nördlich', lat: point.lat + .05, lon: point.lon },
+    { name: 'Westlich', lat: point.lat, lon: point.lon - .075 },
+    { name: 'Südlich', lat: point.lat - .05, lon: point.lon }];
+  matches.replaceChildren();
+  searchStatus.textContent = 'Gewählter Garten: ' + point.name;
+  weather.hidden = false;
+  if (!map) {
+    map = L.map('map', { scrollWheelZoom: false });
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    pins = L.layerGroup().addTo(map);
+  }
+  map.invalidateSize().fitBounds(places.map(p => [p.lat, p.lon]), { padding: [38, 36], maxZoom: 12 });
+  markers();
+  load();
+}
+function clearSelection() {
+  generation++;
+  forecasts = [];
+  best = -1;
+  places = [];
+  matches.replaceChildren();
+  values.replaceChildren();
+  slot.replaceChildren();
+  searchStatus.textContent = '';
+  weather.hidden = true;
+  document.querySelector('#forecast').hidden = true;
+}
+address.addEventListener('input', clearSelection);
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+  clearSelection();
+  const query = address.value.trim();
+  if (!query) { searchStatus.textContent = 'Bitte gib eine Adresse ein.'; return; }
+  const request = generation;
+  searchStatus.textContent = 'Adresse wird gesucht …';
+  const url = new URL('https://photon.komoot.io/api/');
+  url.search = new URLSearchParams({ q: query, limit: '5', lang: 'de' });
+  try {
+    const response = await fetch(url, { signal: AbortSignal.timeout(12000) });
+    if (!response.ok) throw new Error('search unavailable');
+    const { features } = await response.json();
+    if (request !== generation) return;
+    for (const feature of features) {
+      const [lon, lat] = feature.geometry?.coordinates ?? [];
+      if (!Number.isFinite(lon) || !Number.isFinite(lat)) continue;
+      const p = feature.properties;
+      const street = [p.street, p.housenumber].filter(Boolean).join(' ');
+      const town = [p.postcode, p.city || p.district].filter(Boolean).join(' ');
+      const name = [...new Set([street || p.name, town, p.country].filter(Boolean))].join(', ');
+      const choice = document.createElement('button');
+      choice.type = 'button';
+      choice.textContent = name;
+      choice.addEventListener('click', () => selectGarden({ name, lat, lon }));
+      const item = document.createElement('li');
+      item.append(choice); matches.append(item);
+    }
+    searchStatus.textContent = matches.children.length ? 'Welcher Ort passt?' : 'Kein Treffer. Versuch es mit Straße, Postleitzahl und Ort.';
+  } catch {
+    if (request === generation) searchStatus.textContent = 'Die Adresssuche ist gerade nicht erreichbar. Bitte versuch es erneut.';
+  }
+});
 const slot = document.querySelector('#slot');
 const layer = document.querySelector('#layer');
 const outlook = document.querySelector('#outlook');
@@ -24,7 +92,7 @@ function markers() {
     const value = hourly?.[layer.value]?.[i];
     const marker = L.circleMarker([place.lat, place.lon], { radius: index ? 6 : 9, weight: 2, color: '#fff8dc', fillColor: '#673c26', fillOpacity: 1 });
     const label = document.createElement('span');
-    label.textContent = place.name + (forecasts.length ? ' · ' + display(value, layer.value) : '');
+    label.textContent = (index ? place.name : 'Garten') + (forecasts.length ? ' · ' + display(value, layer.value) : '');
     marker.bindTooltip(label, { permanent: true, direction: index === 2 ? 'bottom' : 'top' }).addTo(pins);
   });
 }
@@ -47,6 +115,7 @@ function labelFor(time) {
   return (time.startsWith(weekend[0]) ? 'Sa., 5.12.' : 'So., 6.12.') + ' · ' + time.slice(11, 16) + ' Uhr';
 }
 async function load() {
+  const request = generation;
   retry.hidden = true;
   outlook.textContent = 'Wetterdaten werden geladen …';
   const today = localDate(new Date());
@@ -60,6 +129,7 @@ async function load() {
     const response = await fetch(url, { signal: AbortSignal.timeout(12000) });
     if (!response.ok) throw new Error('forecast unavailable');
     const results = await response.json();
+    if (request !== generation) return;
     const hourly = results[0].hourly;
     const now = Date.now();
     const slots = hourly.time.map((time, i) => ({ time, i })).filter(({ time }) =>
@@ -74,6 +144,7 @@ async function load() {
     document.querySelector('#forecast').hidden = false;
     render();
   } catch {
+    if (request !== generation) return;
     outlook.textContent = 'Die Wetterdaten sind gerade nicht erreichbar. Unser Brief ist trotzdem für dich da.';
     retry.hidden = false;
   }
@@ -81,5 +152,3 @@ async function load() {
 slot.addEventListener('change', render);
 layer.addEventListener('change', markers);
 retry.addEventListener('click', load);
-markers();
-load();

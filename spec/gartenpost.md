@@ -16,9 +16,9 @@ Die Startseite funktioniert als statisches HTML. JavaScript berechnet vor Ort di
 
 ## Ort und Gartenwetter
 
-Der gewünschte Hausstandort ist noch nicht eindeutig geokodiert. Der Reviewstand arbeitet mit einem öffentlich sichtbaren Rosenheimer Stadtpunkt. Der konfigurierbare Bezugspunkt für Sonnenstand und Gartenvorhersage steht in `src/lib/garden.mjs`. Die Ortsbezeichnung im Interface bleibt Rosenheim.
+Der Sonnenstand bezieht sich immer auf Rosenheim. Beim Öffnen ist die Gartenadresse leer. Erst nach Absenden der Suche erhält Photon den eingegebenen Suchtext. Die Person wählt einen der Treffer ausdrücklich aus. Die Adresse gilt für die aktuelle Seitenansicht. Eine neue Eingabe verwirft die Auswahl und ihre Wetterdaten. Bei fehlenden Treffern oder einem Dienstfehler kann die Suche wiederholt werden.
 
-Die Karte zeigt geografisch verortete Modellwerte von Open-Meteo für Rosenheim und drei umliegende Orte auf einer OpenStreetMap-Grundkarte. Der Ebenenwähler wechselt zwischen Bodentemperatur in 6 cm Tiefe, Lufttemperatur in 2 m Höhe und stündlichem Niederschlag. Sechs lokale Termine um 9, 12 und 15 Uhr stehen zur Auswahl, sobald sie im Vorhersagezeitraum liegen und noch bevorstehen. Bereits vergangene Termine entfallen.
+Nach der Auswahl zeigt die Karte Modellwerte von Open-Meteo am gewählten Garten und an drei umliegenden Vergleichspunkten auf einer OpenStreetMap-Grundkarte. Der Ebenenwähler wechselt zwischen Bodentemperatur in 6 cm Tiefe, Lufttemperatur in 2 m Höhe und stündlichem Niederschlag. Sechs lokale Termine um 9, 12 und 15 Uhr stehen zur Auswahl, sobald sie im Vorhersagezeitraum liegen und noch bevorstehen. Bereits vergangene Termine entfallen.
 
 **Regel für einen möglichen Pflanztermin.** Am gewählten Zeitpunkt müssen die Luft und der modellierte Boden über 0 °C liegen, die stündliche Niederschlagsmenge bei 0 mm und das Luftminimum von 18 Uhr bis einschließlich 8 Uhr am folgenden Morgen über 0 °C. Unter den passenden Terminen wird der mit dem wärmsten Boden hervorgehoben, bei Gleichstand der frühere. Das ist eine praktische Vergleichsregel für bewurzelte Jungpflanzen. Die Sorteneignung, tatsächlicher Bodenfrost und Staunässe müssen vor Ort geprüft werden. Die Seite verspricht keine optimale Wachstumstemperatur.
 
