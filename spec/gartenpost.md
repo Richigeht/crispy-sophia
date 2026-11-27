@@ -23,6 +23,8 @@ Die Startseite funktioniert als statisches HTML. JavaScript berechnet vor Ort di
 | [Zusage am Desktop](ansichten/zusage.webp) · [am Handy](ansichten/zusage-mobil.webp) | `/antwort/` | Roséfarbenes Papier mit Schmetterlingsmarke. Links stehen der Gruß und die gerahmte Illustration, rechts die Wetterkarte. Auf dem Handy folgen diese Elemente untereinander. Es schließen sich die Essenseinladung und Ricardos persönliche Widmung an. |
 | [Erste Reisepost](ansichten/reisepost.webp) | `/reisepost/` | Ursprüngliche Geburtstagsausgabe mit den Reiseoptionen Wien und Nürnberg. Über die Fußzeilen der Einladung und Zusage erreichbar. |
 
+In der Tages- und Nachtillustration der Einladung treiben feine und größere Flocken über das Beet. Am unteren Bildrand liegt ein schmaler Schneesaum. Bei reduzierter Bewegung bleiben die Flocken stehen.
+
 Die Ansichten sind Browseraufnahmen der gebauten Seiten. Die Zusage ist zu jeder Tageszeit roséfarben. Ihr Text beantwortet Sophias Ja: „Liebste Sophia, ja, dann komme ich zum Pflanzen vorbei.“ Vor der Ortswahl zeigt sie eine ausdrücklich als Beispiel gekennzeichnete illustrierte Karte. Nach der Ortswahl erscheint an ihrer Stelle die bedienbare Wetterkarte. Die Widmung auf Einladung und Zusage lautet:
 
 > Nürnberg läuft uns nicht weg. Hauptsache, ich darf ein paar Wimpernschläge Zeit mit dir verbringen und mit dir zusammen sein 💕
